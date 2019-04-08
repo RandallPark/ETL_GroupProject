@@ -122,3 +122,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# ignore files that might contain API keys
+api_keys.py
+keys.py
+
+# ignore MacOS file
+.DS_Store
