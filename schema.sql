@@ -11,35 +11,38 @@ USE global_top50_db;
 
 CREATE TABLE country (
 
-    country_id INT UNSIGNED AUTO_INCREMENT NOT NULL,
-    name       VARCHAR(50) NOT NULL,
+    id           INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    name         VARCHAR(50) NOT NULL,
+    country_code VARCHAR(3) NOT NULL,
 
-    PRIMARY KEY (country_id)
+    PRIMARY KEY (id),
+    UNIQUE  KEY (country_code)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE song (
 
-    song_id INT UNSIGNED AUTO_INCREMENT NOT NULL,
-    title   VARCHAR(70) NOT NULL,
-    artist  VARCHAR(70),
+    id          INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    title       VARCHAR(70) NOT NULL,
+    spotify_id  VARCHAR(70) NOT NULL,
 
-    PRIMARY KEY (song_id)
+    PRIMARY KEY (id),
+    UNIQUE  KEY (spotify_id)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE playlist (
     
-    playlist_id INT UNSIGNED AUTO_INCREMENT NOT NULL,
-    title       VARCHAR(30) NOT NULL,
-    country_id  INT UNSIGNED NOT NULL,
+    playlist_id  INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    title        VARCHAR(30) NOT NULL,
+    country_code VARCHAR(3) NOT NULL,
 
     PRIMARY KEY (playlist_id),
 
-    KEY idx_fk_country_id (country_id),
-    CONSTRAINT fk_playlist_country FOREIGN KEY (country_id) REFERENCES country(country_id) ON DELETE RESTRICT ON UPDATE CASCADE
+    KEY idx_fk_country_code (country_code),
+    CONSTRAINT fk_playlist_country_code FOREIGN KEY (country_code) REFERENCES country(country_code) ON DELETE RESTRICT ON UPDATE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -48,13 +51,13 @@ CREATE TABLE playlist_item (
     
     id          INT UNSIGNED AUTO_INCREMENT NOT NULL,
     playlist_id INT UNSIGNED NOT NULL,
-    song_id     INT UNSIGNED NOT NULL,
+    spotify_id  VARCHAR(70) NOT NULL,
 
     PRIMARY KEY (id),
 
     KEY idx_fk_playlist_id (playlist_id),
-    KEY idx_fk_song_id (song_id),
-    CONSTRAINT fk_playlist_item_playlist FOREIGN KEY (playlist_id) REFERENCES playlist(playlist_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT fk_playlist_item_song FOREIGN KEY (song_id) REFERENCES song(song_id) ON DELETE RESTRICT ON UPDATE CASCADE
+    KEY idx_fk_spotify_id (spotify_id),
+    CONSTRAINT fk_playlist_item_playlist_id FOREIGN KEY (playlist_id) REFERENCES playlist(playlist_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_playlist_item_spotify_id FOREIGN KEY (spotify_id) REFERENCES song(spotify_id) ON DELETE RESTRICT ON UPDATE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
