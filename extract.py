@@ -5,6 +5,8 @@
 
 # audio_json = requests.get(audio_url, headers = token_headers).json()
 
+
+#### Extract Song Data ####
 import os
 import time
 import requests
@@ -13,7 +15,8 @@ import pandas as pd
 from requests.auth import HTTPBasicAuth
 from client import client_id, client_secret
 
-path = "Top Country CSV"
+## Create directory (folder), if exists overwrite files inside directory
+path = "Country CSV Files"
 
 try:  
     os.mkdir(path)
@@ -46,7 +49,7 @@ counter = 0
 search_url_playlist = "https://api.spotify.com/v1/playlists/"
 search_url_audio = "https://api.spotify.com/v1/audio-features/"
 
-print("--------------------------\nBegin Exporting CSV Files\n--------------------------")
+print("-----------------------------------------------\nBegin Exporting Song Data into CSV Files\n-----------------------------------------------")
 
 # Loops through each playlist ID from top50_playlist_df
 for playlist_id in top50_playlist_df["Spotify Playlist ID"]:
@@ -57,6 +60,7 @@ for playlist_id in top50_playlist_df["Spotify Playlist ID"]:
     playlist_json = requests.get(playlist_url, headers = token_headers).json()
     
     # List to store json data
+    ID = []
     artist_name = []
     artist_id = []
     track_name = []
@@ -71,7 +75,7 @@ for playlist_id in top50_playlist_df["Spotify Playlist ID"]:
     
     # Loops through each playlist in playlist_json
     for i in range(number_of_tracks):
-        time.sleep(0.02)
+        time.sleep(0.01)
         
         try:
             # Store track json as variable for faster access
@@ -98,6 +102,9 @@ for playlist_id in top50_playlist_df["Spotify Playlist ID"]:
             danceability.append(audio_json["danceability"])
             energy.append(audio_json["energy"])
             
+            # Append playlist ID
+            ID.append(counter)
+            
         except (KeyError, IndexError):
             danceability.append("NaN")
             energy.append("NaN")
@@ -105,7 +112,8 @@ for playlist_id in top50_playlist_df["Spotify Playlist ID"]:
             print(f"Could not find audio ID | {track_ids}")
     
     #Create DataFrame to store into excel
-    artist_country_df = pd.DataFrame({"Artists Name" : artist_name,
+    artist_country_df = pd.DataFrame({"ID" : ID,
+                                      "Artists Name" : artist_name,
                                       "Artist ID" : artist_id,
                                       "Track Name" : track_name,
                                       "Track ID" : track_id,
@@ -118,8 +126,64 @@ for playlist_id in top50_playlist_df["Spotify Playlist ID"]:
     country = top50_playlist_df["Country"][counter]
     
     # Export dataframe of each country into seperate excel files
-    artist_country_df.to_csv(f"Top Country CSV/{country}_top_50.csv")
+    artist_country_df.to_csv(f"{path}/{country}_top_50.csv")
     
     counter += 1
     
-print("--------------------------\nDone Exporting CSV Files\n--------------------------")
+print("-----------------------------------------------\nDone Exporting Song Data into CSV Files\n-----------------------------------------------")
+
+
+#### Extract Country Data ####
+from splinter import Browser
+from bs4 import BeautifulSoup
+import requests
+import bs4
+import pandas as pd
+
+print("-----------------------------------------------\nBegin Exporting Country ISO into CSV Files\n-----------------------------------------------")
+
+executable_path = {'executable_path': 'chromedriver.exe'}
+browser = Browser('chrome', **executable_path, headless=False)
+
+url = "https://www.nationsonline.org/oneworld/country_code_list.htm"
+
+browser.visit(url)
+# HTML object
+html = browser.html
+# Parse HTML with Beautiful Soup
+soup = BeautifulSoup(html, 'html.parser')
+
+html_data = soup.find_all('tr',class_="border1")
+
+result = []
+for i in html_data:
+    result.append(i.text)
+
+    dict_= {"Country":[],
+        "Alpha_2":[],
+        "Alpha_3_Code":[],
+        "UN_Code":[]}
+
+for i in result:
+    split_list = i.split("\n")
+    if len(split_list)>6:
+        dict_["Country"].append(split_list[2])
+        dict_["Alpha_2"].append(split_list[3])
+        dict_["Alpha_3_Code"].append(split_list[4])
+        dict_["UN_Code"].append(split_list[5])
+
+countryISO_df = pd.DataFrame(dict_)
+
+countryISO_df.to_csv(f"Resources/countryISO.csv")
+
+print("-----------------------------------------------\nDone Exporting Country ISO into CSV Files\n-----------------------------------------------")
+
+
+#### Functions ####
+def excelVBA_to_df(path):
+    df = pd.read_excel(path)
+    return df
+
+def csv_to_df(path):
+    df = pd.read_csv(path)
+    return df
