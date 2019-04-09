@@ -9,6 +9,7 @@ pymysql.install_as_MySQLdb()
 
 from config import dbuser, dbpasswd, dburi, dbport, dbname
 
+
 def load_country_tbl(country_df):
 
     try:
@@ -21,7 +22,7 @@ def load_country_tbl(country_df):
         countries = []
         Country   = Base.classes.country
 
-        for cntry_name, cntry_code in zip(country_df['Country'], list(country_df.index)):
+        for cntry_name, cntry_code in zip(country_df['country_name'], list(country_df.index)):
             countries.append(Country(name=cntry_name.strip(), country_code=cntry_code.strip()))
 
         session.add_all(countries)
@@ -54,6 +55,31 @@ def load_song_tbl(song_df):
         session.close()
     except:
         print('ERROR: An error occurred during processing in load_song_tbl()')
+        return False
+    else:
+        return True
+
+
+def load_playlist_tbl(playlist_df):
+
+    try:
+        engine = create_engine(f'mysql://{dbuser}:{dbpasswd}@{dburi}:{dbport}/{dbname}')
+        Base   = automap_base()
+
+        Base.prepare(engine, reflect='True')
+
+        session   = Session(bind=engine)
+        playlists = []
+        Playlist  = Base.classes.playlist
+
+        for playlist_id, cntry_code in zip(playlist_df['playlist_id'], playlist_df['country_code']):
+            playlists.append(Playlist(spotify_id=playlist_id.strip(), country_code=cntry_code.strip()))
+
+        session.add_all(playlists)
+        session.commit()
+        session.close()
+    except:
+        print('ERROR: An error occurred during processing in load_playlist_tbl()')
         return False
     else:
         return True
