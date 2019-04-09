@@ -25,7 +25,7 @@ CREATE TABLE song (
 
     id          INT UNSIGNED AUTO_INCREMENT NOT NULL,
     title       VARCHAR(70) NOT NULL,
-    spotify_id  VARCHAR(70) NOT NULL,
+    spotify_id  VARCHAR(30) NOT NULL,
 
     PRIMARY KEY (id),
     UNIQUE  KEY (spotify_id)
@@ -35,11 +35,12 @@ CREATE TABLE song (
 
 CREATE TABLE playlist (
     
-    playlist_id  INT UNSIGNED AUTO_INCREMENT NOT NULL,
-    title        VARCHAR(30) NOT NULL,
+    id           INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    spotify_id   VARCHAR(30) NOT NULL,
     country_code VARCHAR(3) NOT NULL,
 
-    PRIMARY KEY (playlist_id),
+    PRIMARY KEY (id),
+    UNIQUE  KEY (spotify_id),
 
     KEY idx_fk_country_code (country_code),
     CONSTRAINT fk_playlist_country_code FOREIGN KEY (country_code) REFERENCES country(country_code) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -50,14 +51,14 @@ CREATE TABLE playlist (
 CREATE TABLE playlist_item (
     
     id          INT UNSIGNED AUTO_INCREMENT NOT NULL,
-    playlist_id INT UNSIGNED NOT NULL,
-    spotify_id  VARCHAR(70) NOT NULL,
+    playlist_id VARCHAR(30) NOT NULL,
+    item_id     VARCHAR(30) NOT NULL,
 
     PRIMARY KEY (id),
 
     KEY idx_fk_playlist_id (playlist_id),
-    KEY idx_fk_spotify_id (spotify_id),
-    CONSTRAINT fk_playlist_item_playlist_id FOREIGN KEY (playlist_id) REFERENCES playlist(playlist_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT fk_playlist_item_spotify_id FOREIGN KEY (spotify_id) REFERENCES song(spotify_id) ON DELETE RESTRICT ON UPDATE CASCADE
+    KEY idx_fk_item_id (item_id),
+    CONSTRAINT fk_playlist_item_playlist_id FOREIGN KEY (playlist_id) REFERENCES playlist(spotify_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_playlist_item_item_id FOREIGN KEY (item_id) REFERENCES song(spotify_id) ON DELETE RESTRICT ON UPDATE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
