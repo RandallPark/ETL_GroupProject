@@ -4,15 +4,17 @@ This pipeline extracts data from [Top50_Playlist_by_Country](Resources/Top50_Pla
 
 ## Files
 
-- `schema_db.sql` contains MySQL database schema (`CREATE DATABASE`, `USE DATABASE`, and `CREATE TABLE` statements)
-- `extractor.py` contains scripts used to extract data from API endpoints and scrape data from web source.
-- `transformer.py` contains functions used to simplify and/or clean the data.
-- `loader.py` contains functions used to load transformed data into the SQL database
+- `schema_db.sql`(schema_db.sql) contains MySQL database schema (`CREATE DATABASE`, `USE DATABASE`, and `CREATE TABLE` statements)
+- `config.py`(config.py) contains client credentials to access API endpoints and database credentials for local MySQL instances
+- `extractor.py`(extractor.py) contains scripts used to extract data from API endpoints and scrape data from web source
+- `transformer.py`(transformer.py) contains functions used to simplify and/or clean the data.
+- `loader.py`(loader.py) contains functions used to load transformed data into the SQL database
+- `app.py`(app.py) main file for data extraction and loading into database
  
 ## To Run
  
- - Run [schema_db](schema_db.sql) first to create database and tables
- - Update the database credentials for your local MySQL instance or update your client credentials through [config](config.py)
+ - Run `schema_db.sql`(schema_db.sql) first to create database and tables
+ - Update the database credentials for your local MySQL instance or update your client credentials through `config.py`(config.py)
  - Run `python app.py` to extract data and load into SQL database
  
 ## TODO
