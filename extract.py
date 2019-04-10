@@ -15,6 +15,15 @@ import pandas as pd
 from requests.auth import HTTPBasicAuth
 from client import client_id, client_secret
 
+#### Functions ####
+def excelVBA_to_df(path):
+    df = pd.read_excel(path)
+    return df
+
+def csv_to_df(path):
+    df = pd.read_csv(path)
+    return df
+
 ## Create directory (folder), if exists overwrite files inside directory
 path = "Country CSV Files"
 
@@ -28,7 +37,7 @@ else:
     print ("Successfully created the directory %s " % path)
 
 ## Top 50 Playlist by Country Excel
-top50_playlist_df = pd.read_excel("Resources/Top50_Playlist_by_Country.xlsm")
+top50_playlist_df = excelVBA_to_df("Resources/Top50_Playlist_by_Country.xlsm")
 
 ## This request grants us a temporary token to use to access the json data from spotify.
 token_url = "https://accounts.spotify.com/api/token"
@@ -49,7 +58,17 @@ counter = 0
 search_url_playlist = "https://api.spotify.com/v1/playlists/"
 search_url_audio = "https://api.spotify.com/v1/audio-features/"
 
-print("-----------------------------------------------\nBegin Exporting Song Data into CSV Files\n-----------------------------------------------")
+song_df = pd.DataFrame({"ID" : [],
+                        "Artists Name" : [],
+                        "Artist ID" : [],
+                        "Track Name" : [],
+                        "Track ID" : [],
+                        "Release Date" : [],
+                        "Popularity" : [],
+                        "Danceability" : [],
+                        "Energy" : []})
+
+print("-------------------------------------------\nBegin Extracting Song Data\n-------------------------------------------")
 
 # Loops through each playlist ID from top50_playlist_df
 for playlist_id in top50_playlist_df["Spotify Playlist ID"]:
@@ -111,26 +130,22 @@ for playlist_id in top50_playlist_df["Spotify Playlist ID"]:
             
             print(f"Could not find audio ID | {track_ids}")
     
-    #Create DataFrame to store into excel
-    artist_country_df = pd.DataFrame({"ID" : ID,
-                                      "Artists Name" : artist_name,
-                                      "Artist ID" : artist_id,
-                                      "Track Name" : track_name,
-                                      "Track ID" : track_id,
-                                      "Release Date" : release_date,
-                                      "Popularity" : popularity,
-                                      "Danceability" : danceability,
-                                      "Energy" : energy})
+    #Create DataFrame
+    df = pd.DataFrame({"ID" : ID,
+                        "Artists Name" : artist_name,
+                        "Artist ID" : artist_id,
+                        "Track Name" : track_name,
+                        "Track ID" : track_id,
+                        "Release Date" : release_date,
+                        "Popularity" : popularity,
+                        "Danceability" : danceability,
+                        "Energy" : energy})
     
-    # Country Name
-    country = top50_playlist_df["Country"][counter]
-    
-    # Export dataframe of each country into seperate excel files
-    artist_country_df.to_csv(f"{path}/{country}_top_50.csv")
+    song_df = song_df.append(df)
     
     counter += 1
     
-print("-----------------------------------------------\nDone Exporting Song Data into CSV Files\n-----------------------------------------------")
+print("-------------------------------------------\nDone Extracting Song Data\n-------------------------------------------")
 
 
 #### Extract Country Data ####
@@ -138,9 +153,8 @@ from splinter import Browser
 from bs4 import BeautifulSoup
 import requests
 import bs4
-import pandas as pd
 
-print("-----------------------------------------------\nBegin Exporting Country ISO into CSV Files\n-----------------------------------------------")
+print("-------------------------------------------\nBegin Extracting Country ISO\n-------------------------------------------")
 
 executable_path = {'executable_path': 'chromedriver.exe'}
 browser = Browser('chrome', **executable_path, headless=False)
@@ -159,10 +173,10 @@ result = []
 for i in html_data:
     result.append(i.text)
 
-    dict_= {"Country":[],
-        "Alpha_2":[],
-        "Alpha_3_Code":[],
-        "UN_Code":[]}
+dict_= {"Country":[],
+    "Alpha_2":[],
+    "Alpha_3_Code":[],
+    "UN_Code":[]}
 
 for i in result:
     split_list = i.split("\n")
@@ -174,16 +188,4 @@ for i in result:
 
 countryISO_df = pd.DataFrame(dict_)
 
-countryISO_df.to_csv(f"Resources/countryISO.csv")
-
-print("-----------------------------------------------\nDone Exporting Country ISO into CSV Files\n-----------------------------------------------")
-
-
-#### Functions ####
-def excelVBA_to_df(path):
-    df = pd.read_excel(path)
-    return df
-
-def csv_to_df(path):
-    df = pd.read_csv(path)
-    return df
+print("-------------------------------------------\nDone Extracting Country ISO\n-------------------------------------------")

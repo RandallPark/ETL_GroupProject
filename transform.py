@@ -1,3 +1,4 @@
+import numpy as np
 ## Transform Playlist DataFrame
 
 def playlist(df):
@@ -26,9 +27,9 @@ def song(df):
 
     # Rename the column headers
     song_transformed = song_transformed.rename(columns={"ID": "id",
-                                                            "Track Name": "song_name",
-                                                            "Track ID": "song_id",
-                                                            "Artist ID": "artist_id"})
+                                                        "Track Name": "song_name",
+                                                        "Track ID": "song_id",
+                                                        "Artist ID": "artist_id"})
 
     song_transformed = song_transformed.set_index("id")
 
@@ -42,6 +43,9 @@ def country(df):
     country_col = ["Country", "Alpha_2", "Alpha_3_Code", "UN_Code"]
     # Create a filtered dataframe from specific columns
     country_transformed = df[country_col].copy()
+
+    # Replace empty cells with NaN
+    country_transformed.replace('', np.nan, inplace=True)
 
     # Drop rows with empty cells
     country_transformed = country_transformed.dropna()
