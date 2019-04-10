@@ -28,6 +28,15 @@ CREATE TABLE song (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE artist (
+    artist_id varchar(100) NOT NULL,
+    artist_name varchar(100) NOT NULL,
+    
+    PRIMARY KEY (artist_id)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE playlist (
 	id INT NOT NULL,
     country_code varchar(3) NOT NULL,

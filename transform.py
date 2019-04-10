@@ -9,8 +9,8 @@ def playlist(df):
 
     # Rename the column headers
     playlist_transformed = playlist_transformed.rename(columns={"Country": "country_code",
-                                                            "Spotify URL": "spotify_url",
-                                                            "Spotify Playlist ID": "playlist_id"})
+                                                                "Spotify URL": "spotify_url",
+                                                                "Spotify Playlist ID": "playlist_id"})
 
     playlist_transformed.index.names = ["id"]
 
@@ -34,6 +34,25 @@ def song(df):
     song_transformed = song_transformed.set_index("id")
 
     return song_transformed
+
+
+## Transform Artist DataFrame
+
+def artist(df):
+    # Create a filtered dataframe from specific columns
+    artist_col = ["Artist ID", "Artists Name"]
+
+    artist_transformed = df[artist_col].copy()
+
+    # Rename the column headers
+    artist_transformed = artist_transformed.rename(columns={"Artist ID": "artist_id",
+                                                            "Artists Name": "artist_name"})
+
+    artist_transformed = artist_transformed.drop_duplicates("artist_name")
+
+    artist_transformed = artist_transformed.set_index("artist_id")
+
+    return artist_transformed
 
 
 ## Transform Country DataFrame

@@ -6,14 +6,15 @@
 # audio_json = requests.get(audio_url, headers = token_headers).json()
 
 
-#### Extract Song Data ####
+
+#### Extract Song and Artist Data ####
 import os
 import time
 import requests
 import numpy as np
 import pandas as pd
 from requests.auth import HTTPBasicAuth
-from client import client_id, client_secret
+from config import client_id, client_secret
 
 #### Functions ####
 def excelVBA_to_df(path):
@@ -137,21 +138,16 @@ print("-------------------------------------------\nDone Extracting Song Data\n-
 
 
 #### Extract Country Data ####
-from splinter import Browser
 from bs4 import BeautifulSoup
-from config import executable_path
 
 print("-------------------------------------------\nBegin Extracting Country ISO\n-------------------------------------------")
 
-browser = Browser('chrome', **executable_path, headless=False)
-
 url = "https://www.nationsonline.org/oneworld/country_code_list.htm"
 
-browser.visit(url)
-# HTML object
-html = browser.html
+response = requests.get(url)
+
 # Parse HTML with Beautiful Soup
-soup = BeautifulSoup(html, 'html.parser')
+soup = BeautifulSoup(response.text, 'html.parser')
 
 html_data = soup.find_all('tr', class_="border1")
 
