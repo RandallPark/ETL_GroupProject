@@ -1,4 +1,4 @@
-# Spotify Songs ETL
+# Spotify ETL
 
 This pipeline extracts data from [Top50_Playlist_by_Country](Resources/Top50_Playlist_by_Country.xlsm), containing playlist ID for API data extraction. It also scrapes [URL](https://www.nationsonline.org/oneworld/country_code_list.htm) for country code. The goal is to move data from the wild web into a structured MySQL database.
 
