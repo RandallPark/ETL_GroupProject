@@ -24,18 +24,6 @@ def csv_to_df(path):
     df = pd.read_csv(path)
     return df
 
-## Create directory (folder), if exists overwrite files inside directory
-path = "Country CSV Files"
-
-try:  
-    os.mkdir(path)
-
-except OSError:  
-    print ("Creation of the directory %s failed" % path)
-    
-else:  
-    print ("Successfully created the directory %s " % path)
-
 ## Top 50 Playlist by Country Excel
 top50_playlist_df = excelVBA_to_df("Resources/Top50_Playlist_by_Country.xlsm")
 
@@ -151,12 +139,10 @@ print("-------------------------------------------\nDone Extracting Song Data\n-
 #### Extract Country Data ####
 from splinter import Browser
 from bs4 import BeautifulSoup
-import requests
-import bs4
+from config import executable_path
 
 print("-------------------------------------------\nBegin Extracting Country ISO\n-------------------------------------------")
 
-executable_path = {'executable_path': 'Resources/chromedriver.exe'}
 browser = Browser('chrome', **executable_path, headless=False)
 
 url = "https://www.nationsonline.org/oneworld/country_code_list.htm"
@@ -167,7 +153,7 @@ html = browser.html
 # Parse HTML with Beautiful Soup
 soup = BeautifulSoup(html, 'html.parser')
 
-html_data = soup.find_all('tr',class_="border1")
+html_data = soup.find_all('tr', class_="border1")
 
 result = []
 for i in html_data:

@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
+from config import connection_string
 
-connection_string = "root:root@127.0.0.1/top50_db"
 engine = create_engine(f'mysql://{connection_string}')
 
 def df_to_sql(df, table_name):

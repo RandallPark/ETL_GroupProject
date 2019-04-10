@@ -17,7 +17,9 @@ country_transformed = country(countryISO_df)
 #### LOAD Dataframes to SQL Database####
 print("-------------------------------------------\nLoading DataFrames into SQL Database\n-------------------------------------------")
 
-from load import create_engine, connection_string, engine, df_to_sql
+from config import connection_string
+from load import df_to_sql
+import load
 
 df_to_sql(playlist_transformed, "playlist")
 df_to_sql(song_transformed, "song")
