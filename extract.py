@@ -156,7 +156,7 @@ import bs4
 
 print("-------------------------------------------\nBegin Extracting Country ISO\n-------------------------------------------")
 
-executable_path = {'executable_path': 'chromedriver.exe'}
+executable_path = {'executable_path': 'Resources/chromedriver.exe'}
 browser = Browser('chrome', **executable_path, headless=False)
 
 url = "https://www.nationsonline.org/oneworld/country_code_list.htm"
