@@ -21,7 +21,7 @@ This pipeline extracts data from [Top50_Playlist_by_Country](Resources/Top50_Pla
 
 To obtain your own client_id and client_secret go to (https://developer.spotify.com/dashboard/applications/4b454f446d1f479082eec9de1c27a4a8) and login. Then click on "CREATE A CLIENT ID", once you setup your app you should be able to click on your app to obtain your very own client_id and client_secret.
 
-Install any necessary modules to run [app](app.py)
+Install any necessary modules to run [`app.py`](app.py)
 
 Modules you may need: PyMySQL, bs4, SQLAlchemy
   -pip install PyMySQL
