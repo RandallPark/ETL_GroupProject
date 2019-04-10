@@ -34,7 +34,7 @@ Installation can ber accomplished with:
  
 ## ETL Procedure
 
-###Step 1:
+### Step 1:
 
  - Run [`schema_db.sql`](schema_db.sql) first to create database and tables
 
@@ -66,12 +66,12 @@ mysql>
 
 This will build SQL DB in MySQL from the command line. The schema can also be run from a GUI of your choice.
 
-###Step 2:
+### Step 2:
  - **Rename** [`config_temp.py`](config_temp.py) to [`config.py`](config.py). 
  - Update the database credentials for your local MySQL instance. **Be aware** that SQLAlchemy uses different Dialects and the string for connecting to MySQL can be 'mysql' or 'mysql+pymysql' depending on your environment. This will be set in `config.py` as `dialect =`.
  - Update your client credentials for Spotify API.
 
-###Step 3:
+### Step 3:
 
 From project folder, run:
 
