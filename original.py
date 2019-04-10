@@ -89,14 +89,14 @@ for playlist_id in top50_playlist_df["Spotify Playlist ID"]:
             release_date.append(playlist_tracks["album"]["release_date"])
             popularity.append(playlist_tracks["popularity"])
             
-            # Accessing audio endpoint from spotify
-            audio_url = search_url_audio + track_ids
+            # # Accessing audio endpoint from spotify
+            # audio_url = search_url_audio + track_ids
 
-            audio_json = requests.get(audio_url, headers = token_headers).json()
+            # audio_json = requests.get(audio_url, headers = token_headers).json()
             
-            # Append danceability and energy score
-            danceability.append(audio_json["danceability"])
-            energy.append(audio_json["energy"])
+            # # Append danceability and energy score
+            # danceability.append(audio_json["danceability"])
+            # energy.append(audio_json["energy"])
             
         except (KeyError, IndexError):
             danceability.append("NaN")
@@ -111,8 +111,9 @@ for playlist_id in top50_playlist_df["Spotify Playlist ID"]:
                                       "Track ID" : track_id,
                                       "Release Date" : release_date,
                                       "Popularity" : popularity,
-                                      "Danceability" : danceability,
-                                      "Energy" : energy})
+                                    #   "Danceability" : danceability,
+                                    #   "Energy" : energy
+                                      })
     
     # Country Name
     country = top50_playlist_df["Country"][counter]

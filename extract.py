@@ -13,16 +13,18 @@ import pandas as pd
 from requests.auth import HTTPBasicAuth
 from client import client_id, client_secret
 
-path = "Top Country CSV"
+## Make directory for CSV files 
 
-try:  
-    os.mkdir(path)
+# path = "Top Country CSV"
 
-except OSError:  
-    print ("Creation of the directory %s failed" % path)
+# try:  
+#     os.mkdir(path)
+
+# except OSError:  
+#     print ("Creation of the directory %s failed" % path)
     
-else:  
-    print ("Successfully created the directory %s " % path)
+# else:  
+#     print ("Successfully created the directory %s " % path)
 
 ## Top 50 Playlist by Country Excel
 top50_playlist_df = pd.read_excel("Resources/Top50_Playlist_by_Country.xlsm")
@@ -118,7 +120,7 @@ for playlist_id in top50_playlist_df["Spotify Playlist ID"]:
     country = top50_playlist_df["Country"][counter]
     
     # Export dataframe of each country into seperate excel files
-    artist_country_df.to_csv(f"Top Country CSV/{country}_top_50.csv")
+    #artist_country_df.to_csv(f"Top Country CSV/{country}_top_50.csv")
     
     counter += 1
     
