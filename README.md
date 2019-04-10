@@ -23,7 +23,7 @@ To obtain your own client_id and client_secret go to (https://developer.spotify.
 
 Install any necessary modules to run [`app.py`](app.py)
 
-Modules you may need: PyMySQL, bs4, SQLAlchemy
+Modules you may need: PyMySQL / bs4 / SQLAlchemy
 - pip install PyMySQL
 - pip install bs4
 - pip install SQLAlchemy
