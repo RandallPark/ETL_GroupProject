@@ -25,7 +25,7 @@ For your config.py, to obtain your own client\_id and client\_secret go to the l
 Once you setup your app you should be able to click on your app to obtain your very own client_id and client_secret.
 
 Some module you will need to run [`app.py`](app.py) are PyMySQL / bs4 / SQLAlchemy  
-Installations are as followed:
+Installations are as follow:
 
 - pip install PyMySQL
 - pip install bs4
