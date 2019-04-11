@@ -2,7 +2,7 @@
 
 This pipeline extracts data from [Top50_Playlist_by_Country](Resources/Top50_Playlist_by_Country.xlsm), containing playlist ID for API data extraction. It also scrapes [URL](https://www.nationsonline.org/oneworld/country_code_list.htm) for country code. The goal is to move data from the wild web into a structured MySQL database.
 
-### Repo contents
+### Repository Contents
 
 - [`schema_db.sql`](schema_db.sql) contains MySQL database schema (`CREATE DATABASE`, `USE DATABASE`, and `CREATE TABLE` statements)
 - [`config.py`](config.py) contains client credentials to access API endpoints and database credentials for local MySQL instances
@@ -25,7 +25,7 @@ For your config.py, to obtain your own client\_id and client\_secret go to the l
 Once you setup your app you should be able to click on your app to obtain your very own client_id and client_secret.
 
 Some module you will need to run [`app.py`](app.py) are PyMySQL / bs4 / SQLAlchemy  
-Installation can ber accomplished with:
+Installations are as followed:
 
 - pip install PyMySQL
 - pip install bs4
